@@ -31,16 +31,18 @@
 	<P>정보를 입력하시고 입력한 후 버튼을 눌러주세요.</P>
 	
 	<!-- 
+	
 		form 태그 안에 존재하는 submit 버튼 클릭 했을 때
 		form 태그의 속성 중 action 속성에 작성된 URL로 요청이 감!!
 		요청 보내기 버튼 : Controller에게 요청 보낸다!(Servlet)
 		
-		http://127.0.0.1:4000/first
+		[참고 : 세게김치연구소]
+		http://127.0.0.1:4000/first/서블릿매핑값.do
 		
 	 -->
 	
 	
-	<form method="get" action="/first"> <!-- 동일한 서버에 똑같은 프로젝트로 요청을 보낼 경우에는  http://127.0.0.1:4000 생략 가능-->
+	<form method="get" action="/first/get.do"> <!-- 동일한 서버에 똑같은 프로젝트로 요청을 보낼 경우에는  http://127.0.0.1:4000 생략 가능-->
 		<ul>
 			<li>
 				이름 : <input type="text" name="name"/>
@@ -79,8 +81,6 @@
 			</li>
 		</ul>
 	</form>
-	
-	
 	
 		
 </body>
