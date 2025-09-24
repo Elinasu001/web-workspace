@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="employeeMapper">
+
+	<insert id="insertEmployee" parameterType="com.kh.em.model.vo.Employee">
+		INSERT
+		  INTO
+		       EMPLOYEE
+		       (
+		       EMP_ID
+		     , EMP_NAME
+		     , EMP_NO
+		     , EMAIL
+		     , PHONE
+		     , DEPT_CODE
+		     , JOB_CODE
+		     , SAL_LEVEL
+		     , SALARY
+		     , HIRE_DATE hireDate
+		       
+		       )
+		VALUES
+		       (
+		       #{empId}
+		     , #{empName}
+		     , #{empNo}
+		     , #{email}
+		     , #{phone}
+		     , #{deptCode}
+		     , #{jobCode}
+		     , #{salLevel}
+		     , #{salary}
+		     , SYSDATE 
+		       )
+	</insert>
+	
+	
+		      
+</mapper>
