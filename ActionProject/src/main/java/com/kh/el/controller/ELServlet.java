@@ -1,6 +1,7 @@
 package com.kh.el.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -56,6 +57,28 @@ public class ELServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("academy", "KH 아카데미");
 		session.setAttribute("lecture", new Person("고길동", 40, "마포"));
+		
+		// request롸 session에 동일한 키값을 Attribute추가 한다면?
+		request.setAttribute("key", "request Key");
+		session.setAttribute("key", "session Key");
+		
+		// DB에서 작업한 요청 처리결과 
+		
+		// 숫자값
+		request.setAttribute("small", 3);
+		request.setAttribute("big", 10);
+		
+		// 문자열
+		request.setAttribute("strOne", "안녕");
+		request.setAttribute("strTwo", new String("안녕"));
+		
+		// 객체 
+		request.setAttribute("obj", new Person("콩쥐", 20, "콩쥐네집"));
+		
+		// 리스트
+		request.setAttribute("list", new ArrayList());
+		
+		
 		
 		// 3) 응답 뷰 배정 -> 포워딩
 		request.getRequestDispatcher("/WEB-INF/views/01_el.jsp").forward(request, response);
