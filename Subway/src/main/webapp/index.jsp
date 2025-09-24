@@ -214,7 +214,7 @@
         </div>
         <br>
     </div>
-	<a href='orderList.sandwich'>주문내역보기</a>
+	<a href='orderList.sandwich'>주문내역보기</a><!-- get 방식 요청 / servlet 필요 / 매핑값 통일성 있게 적어주기-->
 
     <br>
 

@@ -23,5 +23,24 @@
 		       )
 	</insert>
 	
+	<select id="findAll" resultType="com.kh.subway.model.vo.Subway">
+		SELECT
+			   NAME
+			 , PHONE
+			 , ADDRESS
+			 , REQUEST
+			 , SANDWICH
+			 , VEGETABLE
+			 , SAUCE
+			 , COOKIE
+			 , PAYMENT
+			 , ORDER_DATE orederDate
+	      FROM
+	      	   TB_SUBWAY
+	     ORDER
+	        BY
+	           orederDate DESC
+	</select>
+	
 		      
 </mapper>
