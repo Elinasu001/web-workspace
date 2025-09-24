@@ -5,36 +5,59 @@
 <mapper namespace="employeeMapper">
 
 	<insert id="insertEmployee" parameterType="com.kh.em.model.vo.Employee">
-		INSERT
-		  INTO
-		       EMPLOYEE
-		       (
-		       EMP_ID
-		     , EMP_NAME
-		     , EMP_NO
-		     , EMAIL
-		     , PHONE
-		     , DEPT_CODE
-		     , JOB_CODE
-		     , SAL_LEVEL
-		     , SALARY
-		     , HIRE_DATE hireDate
-		       
-		       )
-		VALUES
-		       (
-		       #{empId}
-		     , #{empName}
-		     , #{empNo}
-		     , #{email}
-		     , #{phone}
-		     , #{deptCode}
-		     , #{jobCode}
-		     , #{salLevel}
-		     , #{salary}
-		     , SYSDATE 
-		       )
+	
+	   INSERT 
+	     INTO 
+	          EMPLOYEE 
+	          (
+	          EMP_ID
+	        , EMP_NAME
+	       	, EMP_NO
+	        , EMAIL
+	        , PHONE
+	        , DEPT_CODE
+	        , JOB_CODE
+	        , SAL_LEVEL
+	        , SALARY
+	        , HIRE_DATE
+	          )
+	  VALUES 
+	         (
+	         #{empId}
+	       , #{empName}
+	       , #{empNo}
+	       , #{email}
+	       , #{phone}
+	       , #{deptCode}
+	       , #{jobCode}
+	       , #{salLevel}
+	       , #{salary}
+	       , SYSDATE
+	         )
 	</insert>
+	
+	<select id="findAll" resultType="com.kh.em.model.vo.Employee">
+		SELECT
+			   EMP_ID 		empId
+			 , EMP_NAME 	empName
+			 , EMP_NO 		empNo
+			 , EMAIL 		email
+			 , PHONE		phone
+			 , DEPT_CODE 	deptCode
+			 , JOB_CODE 	jobCode
+			 , SAL_LEVEL 	salLevel
+			 , SALARY		salary
+			 , BONUS		bonus
+			 , MANAGER_ID 	managerId
+			 , HIRE_DATE	hireDate
+			 , ENT_DATE 	entDate
+			 , ENT_YN 		entYn
+		  FROM
+		       EMPLOYEE
+		 ORDER
+		    BY
+		       EMP_ID DESC 
+	</select>
 	
 	
 		      

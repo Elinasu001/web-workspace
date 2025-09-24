@@ -50,6 +50,8 @@ public class InsertEmployee extends HttpServlet {
 		insert.setSalLevel(salLevel);
 		insert.setSalary(salary);
 		
+		System.out.println(insert.toString());
+		
 		// 3) 요청 처리 -> Service 호출
 		int result = new EmployeeService().insertEmployee(insert);
 		
