@@ -29,20 +29,18 @@
                     -->
                     <fieldset>
 
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">사원 아이디</span>
-                            <input type="text" class="form-control" name="empId" placeholder="Username" required>
-                        </div>
-
+                       
                         <div class="input-group mb-3">
                             <span class="input-group-text">사원명</span>
                             <input type="text" class="form-control" name="empName"  placeholder="Username" required>
                         </div>
 
                         <div class="input-group mb-3">
-                            <span class="input-group-text">주민등록번호</span>
-                            <input type="text" class="form-control" name="empNo" placeholder="password" required>
-                        </div>
+						    <span class="input-group-text">주민등록번호</span>
+						    <input type="text" class="form-control" name="empNo1" maxlength="6" placeholder="앞 6자리" required>
+						    -
+						    <input type="password" class="form-control" name="empNo2" maxlength="7" placeholder="뒤 7자리" required>
+						</div>
 
                         <div class="input-group mb-3">
                             <span class="input-group-text">이메일</span>
@@ -50,9 +48,20 @@
                         </div>
 
                         <div class="input-group mb-3">
-                            <span class="input-group-text">phone</span>
-                            <input type="number" class="form-control" name="phone" placeholder="phone" required>
-                        </div>
+						    <span class="input-group-text">휴대폰</span>
+						    <select class="form-select" name="phone1" required>
+						        <option value="010">010</option>
+						        <option value="011">011</option>
+						        <option value="016">016</option>
+						        <option value="017">017</option>
+						        <option value="018">018</option>
+						        <option value="019">019</option>
+						    </select>
+						    -
+						    <input type="text" class="form-control" name="phone2" maxlength="4" required>
+						    -
+						    <input type="text" class="form-control" name="phone3" maxlength="4" required>
+						</div>
                         
                         <div class="input-group mb-3">
                             <span class="input-group-text">부서코드</span>
@@ -101,7 +110,7 @@
 
                         <div class="input-group mb-3">
                             <span class="input-group-text">급여</span>
-                            <input type="text" class="form-control" name="salary"  placeholder="salary">
+                            <input type="text" id="salary" class="form-control" name="salary"  placeholder="salary">
                         </div>
                         
                         <div class="btn-wrap">
@@ -119,5 +128,21 @@
         </div>
     </div>
 </body>
+<script>
+	const salaryInput = document.getElementById("salary");
+	
+	// 입력 시 3자리마다 콤마 추가
+	salaryInput.addEventListener("input", function(e) {
+	    let value = e.target.value.replace(/,/g, "");  // 콤마 제거
+	    if (!isNaN(value) && value.length > 0) {
+	        e.target.value = Number(value).toLocaleString(); // 3자리마다 콤마
+	    }
+	});
 
+ 	// 제출 시 콤마 제거 후 전송
+  document.querySelector("form").addEventListener("submit", function() {
+      salaryInput.value = salaryInput.value.replace(/,/g, "");
+  });
+
+</script>
 </html>

@@ -13,7 +13,6 @@
 	<table class="table table-dark table-hover">
 	  <thead>
 	    <tr>
-	      <th scope="col">사원아이디</th>
 	      <th scope="col">사원명</th>
 	      <th scope="col">주민등록번호</th>
 	      <th scope="col">이메일</th>
@@ -21,14 +20,15 @@
 	      <th scope="col">부서코드</th>
 	      <th scope="col">직급코드</th>
 	      <th scope="col">급여등급</th>
+	      <th scope="col">급여</th>
 	    </tr>
 	  </thead>
 	  <tbody>
 	    <tr>
-	      <th scope="row">${ insert.empId }</th>
 	      <td>${ insert.empName }</td>
 	      <td>${ insert.empNo }</td>
 	      <td>${ insert.email }</td>
+	      <td>${ insert.phone }</td>
 	      <td>${ insert.deptCode }</td>
 	      <td>${ insert.jobCode }</td>
 	      <td>${ insert.salLevel }</td>

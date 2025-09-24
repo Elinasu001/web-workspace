@@ -27,20 +27,31 @@ public class InsertEmployee extends HttpServlet {
 		
 		// 0) get
 		// 1) 전달값
-		String empId = request.getParameter("empId");
+		//String empId = request.getParameter("empId");
 		String empName = request.getParameter("empName");
-		String empNo = request.getParameter("empNo");
+		
+		// 주민등록번호
+		String empNo1 = request.getParameter("empNo1");
+		String empNo2 = request.getParameter("empNo2");
+		String empNo = empNo1 + empNo2;
+
+		
 		String email = request.getParameter("email");
-		String phone = request.getParameter("phone");
+		
+		// 핸드폰번호
+		String phone1 = request.getParameter("phone1");
+		String phone2 = request.getParameter("phone2");
+		String phone3 = request.getParameter("phone3");
+		String phone = phone1 + phone2 + phone3;
+
 		String deptCode = request.getParameter("deptCode");
 		String jobCode = request.getParameter("jobCode");
 		String salLevel = request.getParameter("salLevel");
-		String salaryStr = request.getParameter("salary");
-		int salary = Integer.parseInt(salaryStr);
+		int salary = Integer.parseInt(request.getParameter("salary"));
 		
 		// 2) 가공 -> vo 클래스를 객체로 생성해서 필드에 담기
 		Employee insert = new Employee();
-		insert.setEmpId(empId);
+		//insert.setEmpId(empId);
 		insert.setEmpName(empName);
 		insert.setEmpNo(empNo);
 		insert.setEmail(email);

@@ -23,7 +23,7 @@
 	          )
 	  VALUES 
 	         (
-	         #{empId}
+	         SEQ_EMP_ID.NEXTVAL
 	       , #{empName}
 	       , #{empNo}
 	       , #{email}
