@@ -79,7 +79,6 @@ public class ELServlet extends HttpServlet {
 		request.setAttribute("list", new ArrayList());
 		
 		
-		
 		// 3) 응답 뷰 배정 -> 포워딩
 		request.getRequestDispatcher("/WEB-INF/views/01_el.jsp").forward(request, response);
 		

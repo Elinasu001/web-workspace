@@ -33,7 +33,7 @@ public class InsertEmployee extends HttpServlet {
 		// 주민등록번호
 		String empNo1 = request.getParameter("empNo1");
 		String empNo2 = request.getParameter("empNo2");
-		String empNo = empNo1 + empNo2;
+		String empNo = empNo1 + "-" + empNo2;
 
 		
 		String email = request.getParameter("email");

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+	<!-- com.kh.java.member.model.vo.Member -->
+	<select id="login" resultType="member" parameterType="member">
+		SELECT
+			  USER_NO userNo
+			, USER_ID userId
+			, USER_PWD userPwd
+			, USER_NAME userName
+			, EMAIL	
+			, ENROLL_DATE enrollDate
+			, MODIFY_DATE modifyDate
+			, STATUS
+		FROM
+		      KH_MEMBER
+		WHERE
+		      USER_ID = #{userId}
+		  AND
+		      USER_PWD = #{userPwd}
+		  AND
+		      STATUS = 'Y'
+	</select>
+	
+		      
+</mapper>
