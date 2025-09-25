@@ -102,7 +102,8 @@
           
           <!-- 로그인 전 : 로그인 / 회원가입 controller의 session.setAttribute-->
           <!-- 로그인 후 : 내정보 / 로그아웃 -->
-          <!-- choose otherwise el구문 -->
+          <!-- choose when  el구문  otherwise-->
+          <!-- 주의! 주석을 달 경우 스크립트릿 달 경우 500에러 나니 주의 / [SSR] 주석은 : 클라이언트, 스크립트릿 : 서버 -->
           
           <c:choose>
           	<c:when  test="${ empty sessionScope.userInfo }">
