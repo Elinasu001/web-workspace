@@ -114,8 +114,6 @@ public class LoginController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/common/result_page.jsp").forward(request, response);
 		}
 		
-		
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
