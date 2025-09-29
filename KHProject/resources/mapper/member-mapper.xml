@@ -24,5 +24,66 @@
 		      STATUS = 'Y'
 	</select>
 	
-		      
+	<insert id="signUp"> <!-- parameterType :  Mybatis 라서 안적어도됨. -->
+		INSERT
+		  INTO
+		       KH_MEMBER
+		       (
+		       USER_NO
+		     , USER_ID
+		     , USER_PWD
+		     , USER_NAME
+		     , EMAIL
+		       )
+		VALUES
+			   (
+			   KH_UNO.NEXTVAL
+			 , #{userId}
+			 , #{userPwd}
+			 , #{userName}
+			 , #{email}
+			   )
+	</insert>
+	
+	<update id="update"> <!-- parameterType :  Mybatis 라서 안적어도됨./ 적어주는게 좋긴 함.-->
+		UPDATE
+		       KH_MEMBER
+		   SET
+		       USER_NAME = #{userName}
+		     , EMAIL = #{email}
+		     , MODIFY_DATE = SYSDATE <!-- 갱신날짜 -->
+		 WHERE
+		       USER_NO = #{userNo}
+		   AND
+		       STATUS = 'Y'
+	</update>
+		
+	
+	<update id="delete">
+		UPDATE
+		       KH_MEMBER
+		   SET
+		       STATUS = 'N'	
+		     , MODIFY_DATE = SYSDATE
+		 WHERE
+			   USER_NO = #{userNo}
+		   AND
+		       USER_PWD = #{userPwd}
+		   AND
+		       STATUS = 'Y'	   
+	</update>
+	<!-- STATUS = 'Y' : 이미 탈퇴한 회원(STATUS = 'N')을 중복 처리하지 않기 위해 / 현재 사용중인 정상 계정만 탈퇴 처리됨 -->
+	
+	<update id="updatePwd">
+		UPDATE
+		       KH_MEMBER
+		   SET
+		       USER_PWD = #{updatePwd}
+		 WHERE
+		       USER_NO = #{userNo}
+	       AND
+	           USER_PWD = #{userPwd}
+	       AND 
+	           STATUS = 'Y'
+	</update>
 </mapper>

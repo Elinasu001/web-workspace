@@ -1,5 +1,7 @@
 package com.kh.java.member.model.service;
 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.java.member.common.Template;
@@ -30,7 +32,6 @@ public class MemberService {
 		
 		return loginMember;
 		
-		
 	}
 	
 	// 분리된 로직은 원래 다른 페이지로 ! 일단, 이 페이지로 진행
@@ -43,10 +44,74 @@ public class MemberService {
 		}
 		// 아이디 :  값이 있는데 문자로 들어올 경우
 		String pattern = "^[a-zA-Z0-9] {4,20}$";
+		
 		if(!member.getUserId().matches(pattern)) {
 			return;
 		}
 		// [ 비밀번호 검증 로직 ]
+	}
+	
+	
+	public int signUp(Member member) {
+		
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		int result = md.signUp(sqlSession, member);
+		
+		if(result > 0) {
+			sqlSession.commit();
+		}
+		
+		sqlSession.close();
+		
+		return result;
+		
+	}
+	
+	public int update(Map<String, String> map) {
+		
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		int result = md.update(sqlSession, map);
+		
+		if(result > 0) {
+			sqlSession.commit();
+		}
+		
+		sqlSession.close();
+		
+		return result;
+		
+	}
+	
+	
+	public int delete(Member member) {
+		
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		int result = md.delete(sqlSession, member);
+		
+		if(result > 0 ) {
+			sqlSession.commit();
+		}
+		
+		sqlSession.close();
+		
+		return result;
+	}
+	
+	public int updatePwd(Map<String, String> map) {
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		int result = md.updatePwd(sqlSession, map);
+		
+		if(result > 0) {
+			sqlSession.commit();
+		}
+		
+		sqlSession.close();
+		
+		return result;
 	}
 	
 	

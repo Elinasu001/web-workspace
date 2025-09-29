@@ -24,9 +24,8 @@
 <link href="resources/css/agency.min.css" rel="stylesheet">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
+ <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+ <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <style>
     #mainNav .navbar-nav .nav-item .nav-link {
         font-weight: 600;
@@ -74,7 +73,17 @@
 
 <body id="page-top">
 
-  <!-- Navigation -->
+<!-- 헤더는 다 붙어 있으니 여기다가 근데, 자바스크립트에서는 자바코드 안됨 그래서 자바스크립트 문자열 "" 를 붙여줘야한다.  -->
+<!-- request 로 할 경우 안뜸 session으로 왜냐? loginController 에서 request 하고 바로response 해서 끝나니깐 ssession 으로 가야됨 -->
+<!--  근데 계속 두면 로그인 한 상태에서 새로고침할 때마다 뜨니 세션이 끝나면 삭제해야된다. -->
+<c:if test="${not empty alertMsg}">
+	<script>
+		alert("${alertMsg}"); 
+	</script>
+	<c:remove var="alertMsg" scope="session"/>
+</c:if>
+
+ <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
       <a class="navbar-brand" href="#">
@@ -119,7 +128,7 @@
 	          <li class="nav-item">
 	          	<a class="nav-link js-scroll-trigger" href="myPage">내정보</a>
 	          </li>
-	          <li class="nav-item">
+	          <li class="nav-item">									<!-- a 태그니깐 return false / mapping 값 : logout / a 태그는 get방식  -->
 	          	<a class="nav-link js-scroll-trigger" href="logout" onclick="return confirm('진짜로 로그아웃 하려고?')">로그아웃</a>
 	          </li>
 	         </c:otherwise>
@@ -130,7 +139,7 @@
     </div>
   </nav><br><br><br>
   
-  
+
 
   <!-- 로그인 Modal-->
 	<div class="modal fade" id="log-in">

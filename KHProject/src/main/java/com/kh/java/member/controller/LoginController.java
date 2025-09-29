@@ -101,7 +101,19 @@ public class LoginController extends HttpServlet {
 			session.setAttribute("userInfo", loginMember);
 			
 			// 스탭 2. RequestDispatcher get해오기
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			//request.getRequestDispatcher("/index.jsp").forward(request, response);
+			// index.jsp 인데 다른 파일로 대체 될 수 있음 index2.jsp 라던가… 
+			// 이럴 경우, 이럴 때마다 loginController의 경로까지 같이 바꿔줘야 하는 번거로움이 있다.
+			// => 포워딩 방식을 변경해보자 !
+			
+			// 2025-09-29
+			// localhost:4000/kh
+			// sendRedirect  : Client에게 URL을 다시 요청하게 함
+			// response 객체를 이용
+			// response.sendRedirect("/다시 요청 보낼 URL경로"); // login 붙어 있던게 사라짐 ! 
+			session.setAttribute("alertMsg", "로그인에 성공 ~!!!!");
+			response.sendRedirect(request.getContextPath());
+			
 			
 			// 근데 ? 로그인 로그아웃 두개로 같이 나오면 안되니 header.jsp가서 조건문 처리 해주기
 			
