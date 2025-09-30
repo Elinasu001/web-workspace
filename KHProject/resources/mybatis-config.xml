@@ -13,6 +13,9 @@
 	
 	<typeAliases>
 		<typeAlias type="com.kh.java.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.java.common.vo.PageInfo" alias="pageinfo"/>
+		<typeAlias type="com.kh.java.board.model.vo.Board" alias="board"/>
+		<typeAlias type="com.kh.java.board.model.vo.Category" alias="category"/>
 	</typeAliases>
 
 	<environments default="development">
@@ -32,6 +35,7 @@
 
 	<mappers>
 		<mapper resource="/mapper/member-mapper.xml"/>
+		<mapper resource="/mapper/board-mapper.xml"/>
 	</mappers>
 
 </configuration>

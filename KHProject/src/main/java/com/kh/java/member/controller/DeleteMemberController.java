@@ -33,7 +33,7 @@ public class DeleteMemberController extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		// post enconding 사실 패스워드 영어로 넘어와도 그래도 해주기
-		request.setCharacterEncoding("UTF-8");
+		//request.setCharacterEncoding("UTF-8");
 		
 		String userPwd = request.getParameter("userPwd");
 		// 현재 요청 보낸 사용자를 식별할 수 있는 값
