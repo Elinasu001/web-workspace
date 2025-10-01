@@ -34,9 +34,23 @@
 <link href="resources/css/agency.min.css" rel="stylesheet">
 <script type="text/javascript"
 	src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-
+	
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+<!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css"/>
+<!-- Semantic UI theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/semantic.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css"/>
+
+
+
 <style>
 #mainNav .navbar-nav .nav-item .nav-link {
 	font-weight: 600;
@@ -91,7 +105,7 @@ footer {
 	<!--  근데 계속 두면 로그인 한 상태에서 새로고침할 때마다 뜨니 세션이 끝나면 삭제해야된다. -->
 	<c:if test="${not empty alertMsg}">
 		<script>
-			alert("${alertMsg}");
+			alertify.alert("kh화이팅", "${alertMsg}");
 		</script>
 		<c:remove var="alertMsg" scope="session" />
 	</c:if>

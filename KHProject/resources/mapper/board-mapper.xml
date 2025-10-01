@@ -219,19 +219,49 @@
 		       REF_BNO = #{boardNo}
 	</select>
 	
+	<!-- boardNo 는 있으니깐 boardWriter 땡겨오기 -> 로그인 사람만 게시판 수정 삭제 버튼 보여지기 위함 -->
+	<select id="selectBoardWriter" resultType="long">
+		SELECT
+		       BOARD_WRITER
+		  FROM
+		       KH_BOARD
+		 WHERE
+		       BOARD_NO = #{boardNo}
+	</select>
+	
+	<update id="deleteBoard" parameterType="board">
+		UPDATE
+		       KH_BOARD
+		   SET
+		       STATUS = 'N'
+		 WHERE
+		       BOARD_NO = #{boardNo}
+		   AND
+		       BOARD_WRITER = #{boardWriter}    
+	</update>
+	
+	<update id="deleteAttachment" parameterType="long">
+		UPDATE
+		       KH_ATTACHMENT
+		   SET
+		       STATUS = 'N'
+		 WHERE      
+		       REF_BNO = #{boardNo}
+	</update>
+	
 </mapper>
 <!-- 
 KH_BOARD (게시판)
  ┌─────────────┐
  │ BOARD_NO(PK)│◀───────────────┐
- │ BOARD_TITLE │                │
- │ BOARD_WRITER│                │
- └─────────────┘                │
-                                │
-KH_ATTACHMENT (첨부파일)         │
- ┌─────────────┐                │
- │ FILE_NO(PK) │                │
- │ REF_BNO(FK) ├────────────────┘
+ │ BOARD_TITLE │            │
+ │ BOARD_WRITER│            │
+ └─────────────┘            │
+                            │
+KH_ATTACHMENT(첨부파일)       │
+ ┌─────────────┐            │
+ │ FILE_NO(PK) │            │
+ │ REF_BNO(FK) ├────────────┘
  │ ORIGIN_NAME │
  │ CHANGE_NAME │
  │ FILE_PATH   │

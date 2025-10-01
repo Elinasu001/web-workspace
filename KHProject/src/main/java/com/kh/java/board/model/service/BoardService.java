@@ -111,6 +111,8 @@ public class BoardService {
 			sqlSession.commit();
 			Board board = bd.selectBoard(sqlSession, boardNo);
 			Attachment at = bd.selectAttachment(sqlSession, boardNo);
+			Long userNo = bd.selectBoardWriter(sqlSession, boardNo); // 게시판 수정 / 삭제 버튼 boardWriter도 가져오기 ~~
+			
 			//System.out.println(board);
 			//System.out.println(at);
 			// 어딜 담아서 가도 상관 없지만 리스트 : 순서 , set : 중복 없애고 싶을 경우 , map : key, value 명확하게 하고 싶을 경우 [v]
@@ -122,11 +124,38 @@ public class BoardService {
 			Map<String, Object> map = new HashMap();
 			map.put("board", board);
 			map.put("at", at);
-			
+			map.put("boardWriter", userNo);
 			return map;
 		}
 		
 		return null; // 실패
+		
+	}
+	
+	public int deleteBoard(Board board) {
+		
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		int result = bd.deleteBoard(sqlSession, board); // KH_BOARD status 똑같 n으로 변경
+																			// long -> int 로 하는 변환 long 메서드
+		Attachment at = bd.selectAttachment(sqlSession, board.getBoardNo().intValue());
+		// int result2 = 1; 이렇게 하면 안됨, 파일이(at)이 null 일 경우에만 boardNo 여부 확인
+		int result2 = 1;
+		
+		if(at != null) {
+			result2 = bd.deleteAttachment(sqlSession, board.getBoardNo()); // KH_ATTACHMENT 파일의 status 똑같 n으로 변경
+		}
+		
+		
+		if(result * result2 > 0) {
+			sqlSession.commit();
+		} else {
+			sqlSession.rollback();
+		}
+		
+		sqlSession.close();
+		
+		return result * result2;
 		
 	}
 	

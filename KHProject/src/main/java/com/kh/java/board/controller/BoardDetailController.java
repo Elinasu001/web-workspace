@@ -20,7 +20,7 @@ public class BoardDetailController extends HttpServlet {
     public BoardDetailController() {
         super();
     }
-
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// DB 2번 접근
@@ -37,9 +37,25 @@ public class BoardDetailController extends HttpServlet {
 		// board + atthment 있을 수 있음.
 		Map<String, Object> map = new BoardService().selectBoard(boardNo);
 		
-		// 상세 페이지에 쓰고 말 거기 때문에 request
-		request.setAttribute("map", map);
-		request.getRequestDispatcher("WEB-INF/views/board/board_detail.jsp").forward(request, response);
+		String path = "";
+		// 성공 / 실패
+		if(map != null) {
+			// 상세 페이지에 쓰고 말 거기 때문에 request
+			request.setAttribute("map", map);
+			/*
+			request.getRequestDispatcher("WEB-INF/views/board/board_detail.jsp").forward(request, response);
+			*/
+			path = "board/board_detail";
+		} else {
+			request.setAttribute("msg", "게시글이 없습니다.");
+			/*
+			request.getRequestDispatcher("WEB-INF/views/common/result_page.jsp").forward(request, response);
+			 */
+			path = "common/result_page";
+		}
+		
+		// 공통삭제
+		request.getRequestDispatcher("WEB-INF/views/" + path + ".jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

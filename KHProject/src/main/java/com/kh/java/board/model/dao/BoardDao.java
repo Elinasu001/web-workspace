@@ -45,4 +45,17 @@ public class BoardDao {
 		return sqlSession.selectOne("boardMapper.selectAttachment", boardNo);
 	}
 	
+	public Long selectBoardWriter(SqlSession sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper.selectBoardWriter", boardNo);
+	}
+	
+	// 업데이트해서 status를 n으로 변환하는 것 까지는 문제가 아님
+	// 
+	public int deleteBoard(SqlSession sqlSession, Board board) {
+		return sqlSession.update("boardMapper.deleteBoard", board);
+	}
+	public int deleteAttachment(SqlSession sqlSession, Long boardNo) {
+		return sqlSession.update("boardMapper.deleteAttachment", boardNo);
+	}
+	
 }

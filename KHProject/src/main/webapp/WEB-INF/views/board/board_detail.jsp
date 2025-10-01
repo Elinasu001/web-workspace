@@ -24,64 +24,67 @@
 		      <div class="card-header text-white" style="background-color: #52b1ff;">${map.board.boardNo}번 게시물 내용</div>
 		      <div class="card-body"> 
 		
-		          <div class="form-group">
-		            <label>카테고리</label><br>
-		            <span>${map.board.category}</span>
-		          </div>      
-		        
-		          <div class="form-group">
-		            <label>작성자</label>
-		            <input type="text" class="form-control" name='writer' value="${map.board.boardWriter}" readonly>
-		          </div>
-		          
-		          <div class="form-group">
-		            <label>제목</label>
-		            <input type="text" class="form-control" name='title' value="${map.board.boardTitle}" readonly>
-		          </div>
+				<div class="form-group">
+				  <label>카테고리</label><br>
+				  <span>${map.board.category}</span>
+				</div>      
+				
+				<div class="form-group">
+				  <label>작성자</label>
+				  <input type="text" class="form-control" name='writer' value="${map.board.boardWriter}" readonly>
+				</div>
+				
+				<div class="form-group">
+				  <label>제목</label>
+				  <input type="text" class="form-control" name='title' value="${map.board.boardTitle}" readonly>
+				</div>
+				
+				<div class="form-group">
+				  <label>내용</label>
+				  <textarea class="form-control" rows="5" name='content'  readonly style="resize:none;">${map.board.boardContent}</textarea>
+				</div>
 		
-		          <div class="form-group">
-		            <label>내용</label>
-		            <textarea class="form-control" rows="5" name='content'  readonly style="resize:none;">${map.board.boardContent}</textarea>
-		          </div>
-		
-		          <div class="form-group">
-		            <strong>첨부파일</<strong>
-						<c:choose >
-							<c:when test="${map.at ne null}">
-				            	<!-- 첨부파일은 있을수도있음 -->
-				            	<!-- 
-				            	파일 경로 : localhost:4000/kh/resources/board_upfiles/KHacademy_....jsp
-				            	 -->
-				            	<a download="${map.at.originName}" href="${map.at.filePath}/${map.at.changeName}">
-				            		${map.at.originName}
-				            	</a>
-				            	<br>
-				            	<img src="${map.at.filePath}/${map.at.changeName}"/>
-			            	</c:when>
-			            	<c:otherwise>
-				            	<!-- 첨부파일은 없을수도있음 -->
-				            	&nbsp;&nbsp;<span>첨부파일이 존재하지 않습니다.</span>
-		          			</c:otherwise>
-						</c:choose>
-		          </div>
+				<div class="form-group">
+				  <strong>첨부파일</<strong>
+					<c:choose >
+						<c:when test="${map.at ne null}">
+						   	<!-- 첨부파일은 있을수도있음 -->
+						   	<!-- 
+						   	파일 경로 : localhost:4000/kh/resources/board_upfiles/KHacademy_....jsp
+						   	 -->
+						   	<a download="${map.at.originName}" href="${map.at.filePath}/${map.at.changeName}">
+						   		${map.at.originName}
+						   	</a>
+						   	<br>
+						   	<img src="${map.at.filePath}/${map.at.changeName}"/>
+					  	</c:when>
+					  	<c:otherwise>
+					   	<!-- 첨부파일은 없을수도있음 -->
+					   	&nbsp;&nbsp;<span>첨부파일이 존재하지 않습니다.</span>
+						</c:otherwise>
+					</c:choose>
+				</div>
 		         
-		          <a class="btn" href="boards?currentPage=1" style="background-color: #52b1ff; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">
-		          목록
-		          </a>
-		          &nbsp;&nbsp;
-		          
-		          <a 
-		            class="btn" 
-		            href="수정요청 매핑값"
-		      		style="background-color: orange; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8"
-		      		>수정</a>&nbsp;&nbsp;
-			          
-		          <a 
-		            class="btn" 
-		            href="삭제하기" onclick="return confirm('정말로 삭제하시겠습니까?')"
-		      		style="background-color: red; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8"
-		      		>삭제</a>&nbsp;&nbsp;
-
+				<a class="btn" href="boards?currentPage=1" style="background-color: #52b1ff; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">
+				목록
+				</a>
+				&nbsp;&nbsp;
+				<!-- 
+					버튼 두 개를 게시글 작성잨만 볼 수 있게 하고 싶음
+					사용자의 식별 : MEMBER -> PK(USER_NO), UNIQUE(USER_ID) 둘다 없는상태 ?
+					userInfo.userNo eq board.boardWriter				
+				 -->
+				<c:if test="${ userInfo.userNo eq map.boardWriter }">
+					<a class="btn" href="수정요청 매핑값" style="background-color: orange; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">
+					 	수정
+					</a>
+					&nbsp;&nbsp;
+					  
+					 <a class="btn" href="delete.board?boardNo=${map.board.boardNo}" onclick="return confirm('정말로 삭제하시겠습니까?')" style="background-color: red; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">
+						삭제
+					 </a>
+					 &nbsp;&nbsp;
+				</c:if>
 		      </div>
 		    </div>
 		  </div>
