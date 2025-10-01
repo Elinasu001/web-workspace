@@ -156,7 +156,7 @@ public class BoardListController extends HttpServlet {
 		int offset = (currentPage - 1) * boardLimit;
 		
 		// 관리하기 힘드니 따로 common / vo 에 pageinfo 만들어주기
-		com.kh.java.common.vo.PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, startPage, endPage, maxPage, offset);
+		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, startPage, endPage, maxPage, offset);
 		//System.out.println(pi);
 		
 		// DB

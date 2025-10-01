@@ -40,8 +40,12 @@ tr:hover {
 				</tr>
 			</thead>
 			<tbody>
-			
-			<c:forEach var="board" items="${ boards }"> 
+			<!-- 
+				화면 넘기기 방법 :
+				1. TITLE 눌렀을 경우 넘어가게 하려면 A태그로 감싸기 
+				2. 
+			-->
+			<c:forEach var="board" items="${ boards }">
 				<tr style="color: #52b1ff;" class="board" id="${ board.boardNo }">
 					<td>${ board.boardNo }</td>
 					<td>${ board.category }</td>
@@ -56,6 +60,18 @@ tr:hover {
 
 		</table>
 	</div>
+	
+	<script>
+	 $(function(){
+		 $(".board").click(e => {
+			//location.href=`detail.board`; 
+		 	console.log(e.currentTarget.id);
+		 	const targetId = e.currentTarget.id;
+		 	location.href = `detail.board?boardNo=\${targetId}`;
+		 	// el구문으로 분리되어 \사용
+		 });
+	 });
+	</script>
 		
 	</div>
 	<div class="paging-area" align="center">

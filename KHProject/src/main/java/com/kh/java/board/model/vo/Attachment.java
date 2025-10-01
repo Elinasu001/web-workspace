@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Attachment {
 	private Long fileNo;
-	private Long refBno;
+	private Long refBno; // 어느 게시글에 있는지 알기 위함
 	private String originName;
 	private String changeName;
 	private String filePath; // 일반게시판이냐 사진 게시판이냐
