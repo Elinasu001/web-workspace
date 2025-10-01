@@ -1,6 +1,0 @@
-@charset "UTF-8";
-
-
-.line a { position: relative; padding:0 10px; vertical-align: middle;}
-.line a:nth-child(1):after{content: ""; position: absolute; border: 1px solid; width:1px; height:12px;  top:50%; right:0; transform: translateY(-50%);}
-.navbar-expand-lg .offcanvas .offcanvas-body {flex-direction:column; font-size:12px;}
