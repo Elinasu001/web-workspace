@@ -75,7 +75,7 @@
 					userInfo.userNo eq board.boardWriter				
 				 -->
 				<c:if test="${ userInfo.userNo eq map.boardWriter }">
-					<a class="btn" href="수정요청 매핑값" style="background-color: orange; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">
+					<a class="btn" href="updateForm.board?boardNo=${map.board.boardNo}" style="background-color: orange; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">
 					 	수정
 					</a>
 					&nbsp;&nbsp;
