@@ -78,4 +78,13 @@ public class BoardDao {
 		return sqlSession.selectList("boardMapper.selectSearchList", map);
 	}
 	
+	// 사진게시판
+	public int insertImageBoard(SqlSession sqlSession, Board board) {
+		return sqlSession.insert("boardMapper.insertImageBoard", board);
+	}
+	
+	public int insertAttachmentList(SqlSession sqlSession, Attachment at) {
+		return sqlSession.insert("boardMapper.insertAttachmentList", at);
+	}
+	
 }

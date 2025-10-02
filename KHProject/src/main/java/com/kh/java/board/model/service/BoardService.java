@@ -219,6 +219,63 @@ public class BoardService {
 		sqlSession.close();
 		
 		return boards;
+	}
+	
+	// 보드는 KH_BOARD (insert) 파일은 KH_ATTACHMENT (insert) 사진게시판은 기존에 있던거 사용할 수 있을까?
+	
+	public int insertImage(Board board, List<Attachment> files) {
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		// 1. BOARD에 INSERT 하는거 만들어놨음
+		// 2. ATTACHMENT에 INSERT하는 거 만들어놨음
+		// 1. 일반 게시글 가정으로 boardType이 있다 == 1 / 사진은 == 2 / 사진은 카테고리 없음 ==> 기존에 insert 보트를 못씀
+		// 2. ATTACHMENT에 없느 FILE_LEVEL이 있어 기존에 있는건 사용할 수 없다. / REF_NO
+		// ==> 결론적으로 다시 새거를 만들어야 한다.
+		
+		int result = 0;
+		
+		// insert 하다가 exception이 일어남 ! 예외처리 가자 !
+		try {
+			
+			// 1. 게시글 INSERT 
+			result = bd.insertImageBoard(sqlSession, board);
+			
+			// 2. 게시글에 INSERT가 성공 시 첨부파일을 INSERT
+			if(result > 0) {
+				
+				// 문제 : 첨붚일 개수만큼 INSERT 해야됨 (1개 2개 3개 4개 일수도 있다.)
+				for(Attachment file : files) {
+					file.setRefBno(board.getBoardNo());
+					result = bd.insertAttachmentList(sqlSession, file); // 여기서 예외가 발생하여 실행 안되니 rollback
+					
+					if(result == 0) { // 중간에 하나라도 실패하면 빠지자
+						break;
+					}
+				}
+				
+			}
+			
+			// 3. 다 성공 했으면 commit
+			if(result > 0 ) {
+				sqlSession.commit();
+				
+			} else {
+				sqlSession.rollback();
+			}
+			
+		} catch (Exception e) {
+			
+			sqlSession.rollback();
+			e.printStackTrace();
+			result = 0; // rollback
+			
+		} finally {
+			
+			sqlSession.close();
+			
+		}
+		
+		return result;
 		
 	}
 	

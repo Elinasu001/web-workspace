@@ -4,16 +4,25 @@
 <header>
     <div class="top-bar">
         <div class="inner">
+        	
+        	<!-- sessionScope에 userInfo가 없을 경우 -->
             <div class="auth-links">
-                <a href="#login" class="btn-login line">로그인</a>
-                <a href="#signup" class="btn-signup">회원가입</a>
+                <a href="/vp/login" class="btn-login line">로그인</a>
+                <a href="/vp/join" class="btn-signup">회원가입</a>
             </div>
+            
+            <!-- sessionScope에 userInfo가 있을 경우 -->
+            <div class="auth-links">
+                <a href="#login" class="btn-login line">로그아웃</a>
+                <a href="#signup" class="btn-signup">내정보</a>
+            </div>
+            
         </div>
     </div>
     <nav id="gnbFull" aria-label="주요 메뉴">
         
         <div class="inner">
-            <a href="#" class="logo" aria-label="홈으로">
+            <a href="/vp" class="logo" aria-label="홈으로">
                 <img src="./assets/images/logo.png" alt="">
                 <span>valueup</span>
             </a>

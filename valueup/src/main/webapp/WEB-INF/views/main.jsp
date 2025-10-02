@@ -2,10 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!-- main css -->
-<link rel="stylesheet" href="assets/css/ui/com/main.css"/>
-<!-- main script -->
-<script type="text/javascript"  src="../valueup/assets/js/ui/com/fullpage.js"></script>
+
 
 <div id="full-container">
    <div class="section" id="firstPage">

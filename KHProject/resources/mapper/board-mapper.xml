@@ -146,6 +146,7 @@
 	4) retu~ing 도 있다
 	-->
 	<insert id="insertBoard" parameterType="board">
+		<!--  일반 게시글 가정으로 boardType이 있다 == 1 // 카테고리-->
 		<selectKey resultType="Long" keyProperty="boardNo" order="BEFORE">
 			SELECT SEQ_BNO.NEXTVAL FROM DUAL
 		</selectKey>
@@ -345,6 +346,49 @@
        	         BOARD_NO DESC
        	   OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
 	</select>
+	
+	<!-- 어디 게시글에 넣은 건지 게시글 번호를 넣어야 한다. -->
+	<insert id="insertImageBoard" parameterType="board">
+		<selectKey resultType="Long" keyProperty="boardNo" order="BEFORE">
+			SELECT SEQ_BNO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT
+		  INTO
+		       KH_BOARD
+		       (
+		       BOARD_NO
+		     , BOARD_TYPE
+		     , BOARD_TITLE
+		     , BOARD_CONTENT
+		     , BOARD_WRITER
+		       )
+	    VALUES
+	           (
+	           #{boardNo}
+	         , 2
+	         , #{boardTitle}
+	         , #{boardContent}
+	         , #{boardWriter}
+	           )
+	           
+	</insert>
+	
+	<insert id="insertAttachmentList" parameterType="attachment">
+		INSERT
+		  INTO
+		       KH_ATTACHMENT
+		VALUES
+		       (
+		       SEQ_FNO.NEXTVAL
+		     , #{refBno}
+		     , #{originName}
+		     , #{changeName}
+		     , #{filePath}
+		     , SYSDATE
+		     , #{fileLevel}
+		     , 'Y'
+		       )
+	</insert>
 	
 </mapper>
 <!-- 
