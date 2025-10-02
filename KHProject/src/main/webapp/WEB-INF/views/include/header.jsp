@@ -132,7 +132,7 @@ footer {
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/kh/boards?page=1">게시판</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="#">사진게시판</a></li>
+						href="/kh/images">사진게시판</a></li>
 
 					<!-- 로그인 전 : 로그인 / 회원가입 controller의 session.setAttribute-->
 					<!-- 로그인 후 : 내정보 / 로그아웃 -->

@@ -15,7 +15,7 @@ import com.kh.java.board.model.service.BoardService;
 import com.kh.java.board.model.vo.Board;
 import com.kh.java.common.vo.PageInfo;
 
-@WebServlet("/serach.board")
+@WebServlet("/search.board")
 public class BoardSearchController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

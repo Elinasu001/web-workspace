@@ -60,7 +60,7 @@ tr:hover {
 
 		</table>
 		<div id="search-area" class="form-group ">
-			<form action="serach.board" method="get">
+			<form action="search.board" method="get">
 				<div class="row">
 					<div class="col-3">
 						<select name="condition" class="form-control" >
@@ -121,7 +121,7 @@ tr:hover {
 			<c:choose>
 				<c:when test="${not empty condition}">
 					<button class="btn btn-outline-primary" style="color: #52b1ff;"
-					onclick="location.href='serach.board?page=${i}&condition=${condition}&query=${keyword}'">${i}</button>
+					onclick="location.href='search.board?page=${i}&condition=${condition}&query=${keyword}'">${i}</button>
 				</c:when>
 				<c:otherwise>
 					<button class="btn btn-outline-primary" style="color: #52b1ff;"
