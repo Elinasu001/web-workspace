@@ -121,7 +121,7 @@ public class BoardInsertController extends HttpServlet {
 			// System.out.println(multiRequest.getOriginalFileName("upfile"));
 			// 첨부파일이 있다면 "원본파일명" / 없다면 null 값을 반환
 			
-			// 첨부파일이 있을 때만 
+			// 첨부파일이 있을 때만 				// input type의 name 속성값
 			if(multiRequest.getOriginalFileName("upfile") != null) {
 				
 				// 첨부파일이 있다 !! => vo 로 만들기

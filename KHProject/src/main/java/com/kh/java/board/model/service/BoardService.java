@@ -159,4 +159,67 @@ public class BoardService {
 		
 	}
 	
+	public int update(Board board, Attachment at) {
+		
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		int boardResult = bd.updateBoard(sqlSession, board); // 파일과는 상관 없이, 게시글 업데이트는 무조건임
+		
+		// Attachment case 1 ~ 3
+		// 새 첨부파일이 없을 때
+		int atResult = 1;
+		
+		// 새 첨부파일이 존재할 경우
+		if(at != null) {
+			
+			// case 1 왜 null 이랑 비교 하지 ? 초기화를 안하면 기본값이 null ** 지역변수는 초기화 안하면 못쓰고 필드는 초기화 안해도 사용 가능 그래서 이것의 참조 자료형은 nul;
+			if(at.getFileNo() != null) {
+				// 기존에 첨부파일이 있다 => UPDATE
+				atResult = bd.updateAttachment(sqlSession, at);
+			} else {
+				// 기존에 첨부파일이 없다 => INSERT // 만들어 놓은거 사용하기
+				atResult = bd.insertAttachment(sqlSession, at);
+			}
+			
+			// case 2
+			
+		}// 없으면 뭐 할 거 없음
+		
+		
+		// 둘다 성공 했을 때만 commit;
+		// 하나라도 실패했으면 rollback;
+		if(boardResult * atResult > 0) {
+			sqlSession.commit();
+		} else {
+			sqlSession.rollback();
+		}
+		
+		sqlSession.close();
+		
+		return (boardResult * atResult);
+	}
+	
+	public int searchedCount(Map<String, Object> map) {
+		
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		int count = bd.searchedCount(sqlSession, map);
+		
+		sqlSession.close();
+		
+		return count;
+	}
+	
+	public List<Board> selectSearchList(Map<String, Object> map) {
+		
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		List<Board> boards = bd.selectSearchList(sqlSession, map);
+		
+		sqlSession.close();
+		
+		return boards;
+		
+	}
+	
 }

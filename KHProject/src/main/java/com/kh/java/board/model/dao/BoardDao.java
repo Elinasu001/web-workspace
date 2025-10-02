@@ -1,6 +1,7 @@
 package com.kh.java.board.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -50,12 +51,31 @@ public class BoardDao {
 	}
 	
 	// 업데이트해서 status를 n으로 변환하는 것 까지는 문제가 아님
-	// 
 	public int deleteBoard(SqlSession sqlSession, Board board) {
 		return sqlSession.update("boardMapper.deleteBoard", board);
 	}
+	
 	public int deleteAttachment(SqlSession sqlSession, Long boardNo) {
 		return sqlSession.update("boardMapper.deleteAttachment", boardNo);
+	}
+	
+	// 보드 테이블 update
+	public int updateBoard(SqlSession sqlSession, Board board) {
+		return sqlSession.update("boardMapper.updateBoard", board);
+	}
+	
+	// 첨부파일
+	public int updateAttachment(SqlSession sqlSession, Attachment at) {
+		return sqlSession.update("boardMapper.updateAttachment", at);
+	}
+	
+	// 검색
+	public int searchedCount(SqlSession sqlSession, Map<String, Object> map) {
+		return sqlSession.selectOne("boardMapper.searchedCount", map);
+	}
+	
+	public List<Board> selectSearchList(SqlSession sqlSession, Map<String, Object> map){
+		return sqlSession.selectList("boardMapper.selectSearchList", map);
 	}
 	
 }

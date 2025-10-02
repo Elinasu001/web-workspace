@@ -59,8 +59,36 @@ tr:hover {
 			</tbody>
 
 		</table>
+		<div id="search-area" class="form-group ">
+			<form action="serach.board" method="get">
+				<div class="row">
+					<div class="col-3">
+						<select name="condition" class="form-control" >
+							<option value="writer">작성자</option>
+							<option value="content">내용</option>
+							<option value="title">제목</option>
+						</select>
+					 </div>
+				 	<div class="col-7">
+						<input type="text" name="query" class="form-control" value="${keyword}"/>
+						<input type="hidden" name="page" value="1"/>
+					</div>
+					<div class="col-2">
+						<button type="submit" class="btn btn-block" style="background:#52b1ff; color:white">검색</button>
+					</div>
+				</div>
+			</form>
+	     </div>
 	</div>
-	
+	<!-- 컨디션이 유무 확인 후 -->
+	<c:if test="${ not empty condition }">
+		<script>
+			$(function(){
+				$("#search-area option[value=${condition}]").attr('selected', true);
+				
+			})
+		</script>
+	</c:if>
 	<script>
 	 $(function(){
 		 $(".board").click(e => {
@@ -76,6 +104,8 @@ tr:hover {
 	</div>
 	<div class="paging-area" align="center">
 		<!-- gt: > -->
+		
+		
 		<c:if test="${pi.startPage gt 1}">
 	        <button class="btn btn-outline-primary"
 	                onclick="location.href='boards?page=${pi.startPage - 1}'">이전전</button>
@@ -85,10 +115,22 @@ tr:hover {
 			<button class="btn btn-outline-primary" style="color: #52b1ff;"
 				onclick="location.href='boards?page=${pi.currentPage - 1}'">이전</button>
 		</c:if>
+		
+		
 		<c:forEach var="i" begin="${ pi.startPage }" end ="${ pi.endPage }">
-			<button class="btn btn-outline-primary" style="color: #52b1ff;"
-				onclick="location.href='boards?page=${i}'">${i}</button>
+			<c:choose>
+				<c:when test="${not empty condition}">
+					<button class="btn btn-outline-primary" style="color: #52b1ff;"
+					onclick="location.href='serach.board?page=${i}&condition=${condition}&query=${keyword}'">${i}</button>
+				</c:when>
+				<c:otherwise>
+					<button class="btn btn-outline-primary" style="color: #52b1ff;"
+					onclick="location.href='boards?page=${i}'">${i}</button>
+				</c:otherwise>
+			</c:choose>
 		</c:forEach>
+		
+		
 		<c:if test="${ pi.currentPage lt pi.maxPage }"> 
 			<button class="btn btn-outline-primary" style="color: #52b1ff;"
 				onclick="location.href='boards?page=${pi.currentPage + 1}'">다음</button>

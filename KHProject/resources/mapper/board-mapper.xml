@@ -5,6 +5,28 @@
 <mapper namespace="boardMapper">
 	<!-- com.kh.java.board.model.vo.Board -->
 	<!-- com/kh/java/member/common/vo/PageInfo  -->
+	
+	
+	<sql id="boardList">
+		SELECT
+			   BOARD_NO	boardNo
+			 , CATEGORY_NAME category
+			 , USER_NAME boardWriter
+			 , BOARD_TITLE boardTitle
+			 , CREATE_DATE createDate
+			 , COUNT
+		 FROM
+		       KH_BOARD
+		 JOIN
+	           KH_CATEGORY USING (CATEGORY_NO)
+	     JOIN 
+	           KH_MEMBER ON (BOARD_WRITER = USER_NO)
+	    WHERE
+	           KH_BOARD.STATUS = 'Y'
+	</sql>
+	
+	
+	
 	<select id="selectListCount" resultType="_int">
 		SELECT
 		       COUNT(*)
@@ -248,6 +270,81 @@
 		 WHERE      
 		       REF_BNO = #{boardNo}
 	</update>
+	
+	<!-- board update -->
+	
+	<!-- boardNo : 사용자만 게시판 수정 -->
+	<update id="updateBoard" parameterType="board">
+		UPDATE
+		       KH_BOARD
+		   SET
+		       BOARD_TITLE = #{boardTitle}
+		     , BOARD_CONTENT = #{boardContent}
+		     , CATEGORY_NO = #{category}
+		 WHERE
+		       BOARD_NO = #{boardNo}
+		   AND
+		       STATUS = 'Y'
+		   AND
+		       BOARD_WRITER = #{boardWriter}
+	</update>
+	
+	<!-- fileNo : 파일 유무 -->
+	<update id ="updateAttachment" parameterType="attachment">
+		UPDATE
+		       KH_ATTACHMENT
+		   SET
+		       ORIGIN_NAME = #{originName}
+		     , CHANGE_NAME = #{changeName}
+		     , FILE_PATH = #{filePath}
+		 WHERE
+		       FILE_NO = #{fileNo}
+	</update>
+	
+	<!-- choose otherwise로 바꿔주는게 좋음 -->
+	<select id="searchedCount" parameterType="hashmap" resultType="_int">
+		select
+		       count(*)
+		  from
+		       kh_board
+	      join
+	           kh_member on(board_writer = user_no)
+     	 where
+	           kh_board.status = 'Y'
+	     <if test="condition == 'content'">
+	     	and
+	     	    board_content
+	     </if>
+	     <if test="condition == 'writer'">
+	     	and
+	     	    user_name
+	     </if>
+	     <if test="condition =='title'">
+	     	and
+	     	    board_title
+	     </if>
+	     like '%' || #{keyword} ||'%'
+	</select>
+	
+	<select id="selectSearchList" resultType="board" parameterType="hashMap">
+       <include refid="boardList"/>
+       <choose>
+       		<when test="condition == 'writer'">
+       			AND USER_NAME
+       		</when>
+       		<when test="condition == 'title'">
+       			AND BOARD_TITLE
+       		</when>
+       		<otherwise>
+       			AND BOARD_CONTENT
+       		</otherwise>
+       </choose>
+       		LIKE '%' || #{keyword} ||'%'
+       	   ORDER
+       	      BY
+       	         BOARD_NO DESC
+       	   OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+	</select>
 	
 </mapper>
 <!-- 
