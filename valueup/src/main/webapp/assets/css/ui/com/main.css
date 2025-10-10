@@ -22,6 +22,9 @@ html {overflow:hidden;}
 }
 
 .content {
+	display:flex;
+	flex-direction:column;
+	align-items:center;
     padding: 20px;
 }
 
@@ -33,6 +36,7 @@ html {overflow:hidden;}
 .content p {
     font-size: 1.5rem;
     margin-top: 10px;
+    margin-bottom:30px;
 }
 
 /* Section backgrounds */
@@ -120,6 +124,7 @@ html {overflow:hidden;}
     cursor: pointer;
 }
 
+.app-link img {width:auto;}
 
 
 /* 이벤트 카드 크기 고정 */

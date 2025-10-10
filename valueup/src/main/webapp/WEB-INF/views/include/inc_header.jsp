@@ -7,7 +7,7 @@
         	
         	<!-- sessionScope에 userInfo가 없을 경우 -->
             <div class="auth-links">
-                <a href="/vp/login" class="btn-login line">로그인</a>
+                <a href="/vp/login.fw" class="btn-login line">로그인</a>
                 <a href="/vp/join" class="btn-signup">회원가입</a>
             </div>
             
@@ -102,10 +102,18 @@
      <nav aria-label="전체 메뉴">
          <div class="top-bar">
              <div class="inner">
+             
+             	 <!-- sessionScope에 userInfo가 없을 경우 -->
                  <div class="auth-links">
-                 <a href="#login" class="btn-login line">로그인</a>
-                 <a href="#signup" class="btn-signup">회원가입</a>
+	                 <a href="/vp/login.fw" class="btn-login line">로그인</a>
+	                 <a href="#signup" class="btn-signup">회원가입</a>
                  </div>
+                 
+                 <!-- sessionScope에 userInfo가 있을 경우 -->
+	             <div class="auth-links">
+	                <a href="#login" class="btn-login line">로그아웃</a>
+	                <a href="#signup" class="btn-signup">내정보</a>
+	             </div>
              </div>
          </div>
          <ul style="list-style:none; margin:0; padding:0">

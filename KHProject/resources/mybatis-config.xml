@@ -17,6 +17,7 @@
 		<typeAlias type="com.kh.java.board.model.vo.Board" alias="board"/>
 		<typeAlias type="com.kh.java.board.model.vo.Category" alias="category"/>
 		<typeAlias type="com.kh.java.board.model.vo.Attachment" alias="attachment"/>
+		<typeAlias type="com.kh.java.board.model.dto.ImageBoardDto" alias="imageboarddto"/>
 	</typeAliases>
 
 	<environments default="development">

@@ -216,6 +216,7 @@
 		     , BOARD_CONTENT boardContent
 		 FROM
 		       KH_BOARD
+		 LEFT
 		 JOIN
 		       KH_CATEGORY USING (CATEGORY_NO)
 		 JOIN
@@ -240,6 +241,9 @@
 		       STATUS = 'Y'
 		  AND
 		       REF_BNO = #{boardNo}
+		ORDER
+		   BY
+		       FILE_NO ASC
 	</select>
 	
 	<!-- boardNo 는 있으니깐 boardWriter 땡겨오기 -> 로그인 사람만 게시판 수정 삭제 버튼 보여지기 위함 -->
@@ -389,6 +393,26 @@
 		     , 'Y'
 		       )
 	</insert>
+	
+	<select id="selectImageList" resultType="imageboarddto">
+		SELECT
+			   BOARD_NO	boardNo
+			 , BOARD_TITLE boardTitle
+			 , COUNT
+			 , FILE_PATH filePath
+			 , CHANGE_NAME changeName
+		 FROM
+		       KH_BOARD
+		 JOIN
+	           KH_ATTACHMENT ON (REF_BNO = BOARD_NO)
+	    WHERE
+	           BOARD_TYPE = 2
+	      AND
+	           KH_BOARD.STATUS = 'Y'
+	    ORDER
+	       BY     
+	           BOARD_NO DESC
+	</select>
 	
 </mapper>
 <!-- 

@@ -16,7 +16,13 @@ public class LoginController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		// 로그인
+		
+		// 1) GET ? POST?
+		request.setCharacterEncoding("UTF-8");
+		
+		// 2) 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

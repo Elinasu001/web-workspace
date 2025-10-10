@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.java.board.model.dao.BoardDao;
+import com.kh.java.board.model.dto.ImageBoardDto;
 import com.kh.java.board.model.vo.Attachment;
 import com.kh.java.board.model.vo.Board;
 import com.kh.java.board.model.vo.Category;
@@ -279,4 +280,73 @@ public class BoardService {
 		
 	}
 	
+	public List<ImageBoardDto> selectImageList(){
+		
+		SqlSession sqlSession = Template.getSqlSession(); 
+		
+		List<ImageBoardDto> boards = bd.selectImageList(sqlSession);
+		
+		sqlSession.close();
+		
+		return boards;
+		
+	}
+	
+	public Map<String, Object> selectImageDetail(Long boardNo) {
+		
+		
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		// 1. UPDATE KH_BOARD (조회수) => SELECT 실패 시, 2번 3번 의미가 없으니 먼저 수행시키기
+		// 이미 구현은 해놨는데 이는 sql 확인을 해봐야된다. 만약 boardType 달려있었음 불가능하지만 boardNo만 있으니 사용 가능
+		//int updateResult = bd.increaseCount(sqlSession, boardNo); Long 이라서 안됨 COUNT는 INT로 해줘야됨
+		int updateResult = bd.increaseCount(sqlSession, boardNo.intValue());
+		
+		if(updateResult > 0	) {
+			
+			// 성공
+			sqlSession.commit();
+			
+			
+			// 방법 1) 기존 메소드 사용
+			
+			// ** sql 확인 해보기 selectBoard 사용 안되나? **
+			// INNER JOIN : KH_BOARD.CATEGORY_NO 와 KH_CATEGORY.CATEGORY_NO 값이 모두 존재하고 일치할 때만 결과가 나온다.
+			// (일반게시판) CATEGORY_NO 가 NULL 이면? 
+			// KH_BOARD에 INSERT 시 CATEGORY_NO 값을 넣지 않아서(insertImageBoard) NULL인 경우, 조인 조건 USING (CATEGORY_NO) 가 불일치
+			// KH_CATEGORY와 일치하지 않아 제외
+			// 근데 기존에 있는걸 바꾸면 되니 LEFT 추가하자 ~
+			Board board = bd.selectBoard(sqlSession, boardNo.intValue());
+			
+			// 2. SELECT ONE KH_BOARD (게시글) => UPDATE 실패는 2번에 문제가 있을 확률이 높음( 없는 게시글 또는 삭제 게시글 )
+			// 3. SELECT LIST KH_ATTACHMENT (파일)
+			// ** sql 확인해보기 at 조회(selectAttachment) 기존 기능 사용 되나? **
+			// ORDER BY 추가
+			// selectAttachment 는 일반게시판일때 사용했던거라 selectOne 하여 호출이 안된다. (sql은 orderby로 해서 사용할 수 있으나 메서드 selectone이 안되니 dao에 selectList로 추가 해주기)
+			//List<Attachment> files = bd.selectAttachment(sqlSession, boardNo.intValue());
+			List<Attachment> files = bd.selectAttachmentList(sqlSession, boardNo.intValue());
+			Map<String, Object> map = new HashMap();
+			map.put("board", board);
+			map.put("files", files);
+			return map;
+			
+			// 방법 2) 한번에 가져가는 쿼리 생성하여 기능 다시 만들기
+			
+			// 근데!! 이렇게 하면 database 에 두번 가야 되는게 자원 낭비가 된다			
+			// 그럼 조회 할 때 한번에 가져가는 건 어떨까?
+			// BOARD 필요한 컬럼과 ATTACHMENT 필요한 컬럼 한번에 들고 가면?
+			// 문제점 : BOARD 1행 ATTACHMENT 최대 4행 => SELECT 단위는 행단위인데 BOARD 행과 ATTACHMENT RESULTSET 행 수가 맞지 않는다
+			// [참고] JAVA는 데이터관리 방법은 "객체"로 관리하는데 ORCLE DBMS는 "테이블"로 관리 한다 => 애초에 JAVA랑 관계형 데이터베이스는 패러다임 분리체로 서로 안맞느다. => 단, JAVA는 관계형 데이터 관리 방법이 안맞지만, 오래동안 사용해와서 사용은 함...
+			// 이 문제를 어떻게 해결하는가?
+			
+			
+			
+		}
+		
+		
+		
+	
+		
+		return null;
+	}
 }

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<jsp:include page="WEB-INF\views\include\head.jsp"/>
+<jsp:include page="/WEB-INF\views\include\head.jsp"/>
 <!-- main css -->
 <link rel="stylesheet" href="assets/css/ui/com/main.css"/>
 <!-- main script -->
@@ -15,8 +15,8 @@
 
 <body>
 <div id="wrap">
-	<jsp:include page="WEB-INF/views/include/inc_header.jsp"/>
-	<jsp:include page="WEB-INF/views/main.jsp"/>
+	<jsp:include page="/WEB-INF/views/include/inc_header.jsp"/>
+	<jsp:include page="/WEB-INF/views/main.jsp"/>
 </div>
 </body>
 </html>
