@@ -293,7 +293,8 @@ public class BoardService {
 		
 	}
 	
-	public Map<String, Object> selectImageDetail(Long boardNo) {
+	// autoMapping : Map<String, Object> resultMap : BoardDto
+	public BoardDto selectImageDetail(Long boardNo) {
 		
 		
 		SqlSession sqlSession = Template.getSqlSession();
@@ -356,14 +357,13 @@ public class BoardService {
 			// 1:1 association, 1:N collection( 현재 ) => BoardDto
 			
 			BoardDto boards = bd.selectBoardAndAttachment(sqlSession, boardNo);
-			System.out.println(boards);
+			//System.out.println(boards);
 			
-			return null;
+			return boards;
 		}
 		
+		sqlSession.close();
 		
-		
-	
 		
 		return null;
 	}

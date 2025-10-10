@@ -415,8 +415,14 @@
 	</select>
 	
 	
+	
+	<!-- <resultMap>은 하나의 SQL 조회 결과를 복잡한 객체 구조(DTO, VO)에 자동으로 매핑하기 위한 MyBatis의 기능 -->
+	<!-- 연관 객체(1:N, N:1 관계)나 컬렉션(List, Set) 등을 처리할 때 진가를 발휘 -->
+	<!-- 즉, 하나의 SQL로 여러 테이블을 조인한 결과를 한 번에 가져오고,  그 결과를 resultMap으로 객체 구조에 맞게 자동 매핑할 수 있다 -->
+	<!--  사용하면 좋은 점은? dto에서 List에 댓글도 달리고... 다양한 기능들이 달릴 때마다 select 조회를 여러번 해야되는데 resultMap사용할 경우 조인만 잘 해놓고 resultMap 추가만 해주면 된다 ! -->
 	<resultMap id="boardResultSet" type="boarddto">
 		<id  property="boardNo" column="boardNo"/> <!-- pk -->
+	    <result property="boardWriter" column="boardWriter"/>
 		<result property="boardTitle" column="boardTitle"/>
 		<result property="boardContent" column="boardContent"/>
 		<collection property="files" ofType="attachment"> <!-- property="필드명" ofType="" -->
@@ -426,18 +432,22 @@
 		</collection>
 	</resultMap>
 	<!-- board 관련, at 같이 조회, select는 parameterType 또는 resultMap , 다조회 x 하나만 조회(boardNo)-->
-	<select id="selectBoardAndAttachment" parameterType="long" resultMap="boardResultSet">
+	<select id="selectBoardAndAttachment" parameterType="_long" resultMap="boardResultSet">
 		SELECT
 		       BOARD_NO boardNo
 		     , BOARD_TITLE boardTitle
 		     , BOARD_CONTENT boardContent
+		     , USER_NAME boardWriter
 		     , FILE_NO fileNo
 		     , CHANGE_NAME changeName
 		     , FILE_PATH filePath
 		 FROM
 		       KH_BOARD
 		 JOIN
-		       KH_ATTACHMENT ON(BOARD_NO = REF_BNO)
+           	   KH_MEMBER ON (BOARD_WRITER = USER_NO)  <!-- 작성자 이름 조인 -->
+     	 LEFT 
+      	 JOIN
+               KH_ATTACHMENT ON (BOARD_NO = REF_BNO)  <!-- 첨부파일 없을 때도 표시 -->
 		WHERE
 		       BOARD_NO = #{boardNo}
 		ORDER

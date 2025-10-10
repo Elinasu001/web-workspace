@@ -1,7 +1,6 @@
 package com.kh.java.board.controller;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.java.board.model.dto.BoardDto;
 import com.kh.java.board.model.service.BoardService;
 
 @WebServlet("/detail.image")
@@ -41,10 +41,16 @@ public class ImageDetailController extends HttpServlet {
 		// [참고] ImageBoardDto는 못씀 why? 하나의 보드에 파일이 몇개인지 알 수 없기 때문 ... 
 		// 들고가야되는것 대표 1, att 4 -> 5 그럼 대표는? 대표 1, 대표 1 -> 2
 		// 즉, board 하나에 게시판 같이 들고 가야됨.
-		Map<String, Object> map = new BoardService().selectImageDetail(boardNo);
-		
+		BoardDto board = new BoardService().selectImageDetail(boardNo);
 		//System.out.println(map);
 		
+		if(board != null) {
+			request.setAttribute("board", board);
+			request.getRequestDispatcher("/WEB-INF/views/image_board/detail.jsp").forward(request, response);
+		} else {
+			request.setAttribute("msg", "게시글 조회 실패");
+			request.getRequestDispatcher("/WEB-INF/views/common/result_page.jsp").forward(request, response);
+		}
 		
 	}
 

@@ -65,7 +65,7 @@
 					</c:choose>
 				</div>
 		         
-				<a class="btn" href="boards?currentPage=1" style="background-color: #52b1ff; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">
+				<a class="btn" href="boards?page=1" style="background-color: #52b1ff; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">
 				목록
 				</a>
 				&nbsp;&nbsp;
