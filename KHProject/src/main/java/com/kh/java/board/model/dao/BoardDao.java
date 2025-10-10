@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.kh.java.board.model.dto.BoardDto;
 import com.kh.java.board.model.dto.ImageBoardDto;
 import com.kh.java.board.model.vo.Attachment;
 import com.kh.java.board.model.vo.Board;
@@ -94,6 +95,10 @@ public class BoardDao {
 	
 	public List<Attachment> selectAttachmentList(SqlSession sqlSession, int boardNo){
 		return sqlSession.selectList("boardMapper.selectAttachment", boardNo);
+	}
+	
+	public BoardDto selectBoardAndAttachment(SqlSession sqlSession, Long boardNo) {
+		return sqlSession.selectOne("boardMapper.selectBoardAndAttachment", boardNo);
 	}
 	
 }

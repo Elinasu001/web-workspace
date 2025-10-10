@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.java.board.model.dao.BoardDao;
+import com.kh.java.board.model.dto.BoardDto;
 import com.kh.java.board.model.dto.ImageBoardDto;
 import com.kh.java.board.model.vo.Attachment;
 import com.kh.java.board.model.vo.Board;
@@ -310,27 +311,35 @@ public class BoardService {
 			
 			// 방법 1) 기존 메소드 사용
 			
-			// ** sql 확인 해보기 selectBoard 사용 안되나? **
+			// 2. SELECT ONE KH_BOARD (게시글 조회) => UPDATE 실패는 2번에 문제가 있을 확률이 높음( 없는 게시글 또는 삭제 게시글 )
+			// ** sql 확인 해보기 board 조회 (selectBoard 사용) 안되나? **
 			// INNER JOIN : KH_BOARD.CATEGORY_NO 와 KH_CATEGORY.CATEGORY_NO 값이 모두 존재하고 일치할 때만 결과가 나온다.
 			// (일반게시판) CATEGORY_NO 가 NULL 이면? 
 			// KH_BOARD에 INSERT 시 CATEGORY_NO 값을 넣지 않아서(insertImageBoard) NULL인 경우, 조인 조건 USING (CATEGORY_NO) 가 불일치
 			// KH_CATEGORY와 일치하지 않아 제외
 			// 근데 기존에 있는걸 바꾸면 되니 LEFT 추가하자 ~
+			/**
 			Board board = bd.selectBoard(sqlSession, boardNo.intValue());
+			**/
 			
-			// 2. SELECT ONE KH_BOARD (게시글) => UPDATE 실패는 2번에 문제가 있을 확률이 높음( 없는 게시글 또는 삭제 게시글 )
-			// 3. SELECT LIST KH_ATTACHMENT (파일)
+			// 3. SELECT LIST KH_ATTACHMENT (첨부파일 조회)
 			// ** sql 확인해보기 at 조회(selectAttachment) 기존 기능 사용 되나? **
 			// ORDER BY 추가
 			// selectAttachment 는 일반게시판일때 사용했던거라 selectOne 하여 호출이 안된다. (sql은 orderby로 해서 사용할 수 있으나 메서드 selectone이 안되니 dao에 selectList로 추가 해주기)
 			//List<Attachment> files = bd.selectAttachment(sqlSession, boardNo.intValue());
+			/**
 			List<Attachment> files = bd.selectAttachmentList(sqlSession, boardNo.intValue());
+			**/
+			
+			// Map에 담아 Controller로 전달
+			/**
 			Map<String, Object> map = new HashMap();
 			map.put("board", board);
 			map.put("files", files);
 			return map;
+			**/
 			
-			// 방법 2) 한번에 가져가는 쿼리 생성하여 기능 다시 만들기
+			// 방법 2) 한번에 가져가는 쿼리 생성하여 기능 다시 만들기 (sql resultMap 사용) ** mybatis에서 가장 강력한 resultMap
 			
 			// 근데!! 이렇게 하면 database 에 두번 가야 되는게 자원 낭비가 된다			
 			// 그럼 조회 할 때 한번에 가져가는 건 어떨까?
@@ -339,8 +348,17 @@ public class BoardService {
 			// [참고] JAVA는 데이터관리 방법은 "객체"로 관리하는데 ORCLE DBMS는 "테이블"로 관리 한다 => 애초에 JAVA랑 관계형 데이터베이스는 패러다임 분리체로 서로 안맞느다. => 단, JAVA는 관계형 데이터 관리 방법이 안맞지만, 오래동안 사용해와서 사용은 함...
 			// 이 문제를 어떻게 해결하는가?
 			
+			// mybatis 제공하는 resultMap을 사용할 거임 (예) board 하나 attachment 여러개)
+			// HashMap은 별로 ... 이럴 경우 자바빈 이나 POJO  == VO 사용한다.
+			// POJO란? 아무것도 안넣은 객체 
+			// JAKARTA EE? 맘대로 개발했던 코드들은 유지보수 및 보수가 많이 들어 개발 규격을 만들어버림 => 규격 엄격하여 불편 .. => SPRING으로 넘어오면서 VO 사용할 수 있게 되는데 이것을 POJO라 한다.
+			// 결국 우리가 쓸 것은 ? Advanced Result Maps(복잡한 결과 매핑)
+			// 1:1 association, 1:N collection( 현재 ) => BoardDto
 			
+			BoardDto boards = bd.selectBoardAndAttachment(sqlSession, boardNo);
+			System.out.println(boards);
 			
+			return null;
 		}
 		
 		

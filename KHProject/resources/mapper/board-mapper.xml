@@ -414,6 +414,37 @@
 	           BOARD_NO DESC
 	</select>
 	
+	
+	<resultMap id="boardResultSet" type="boarddto">
+		<id  property="boardNo" column="boardNo"/> <!-- pk -->
+		<result property="boardTitle" column="boardTitle"/>
+		<result property="boardContent" column="boardContent"/>
+		<collection property="files" ofType="attachment"> <!-- property="필드명" ofType="" -->
+			<id property="fileNo" column="fileNo"/> <!-- pk -->
+			<result property="changeName" column="changeName"/>
+			<result property="filePath" column="filePath"/>
+		</collection>
+	</resultMap>
+	<!-- board 관련, at 같이 조회, select는 parameterType 또는 resultMap , 다조회 x 하나만 조회(boardNo)-->
+	<select id="selectBoardAndAttachment" parameterType="long" resultMap="boardResultSet">
+		SELECT
+		       BOARD_NO boardNo
+		     , BOARD_TITLE boardTitle
+		     , BOARD_CONTENT boardContent
+		     , FILE_NO fileNo
+		     , CHANGE_NAME changeName
+		     , FILE_PATH filePath
+		 FROM
+		       KH_BOARD
+		 JOIN
+		       KH_ATTACHMENT ON(BOARD_NO = REF_BNO)
+		WHERE
+		       BOARD_NO = #{boardNo}
+		ORDER
+		   BY
+		       FILE_NO ASC
+	</select>
+	
 </mapper>
 <!-- 
 KH_BOARD (게시판)
