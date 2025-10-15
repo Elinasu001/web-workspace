@@ -12,6 +12,7 @@ import com.kh.java.board.model.dto.ImageBoardDto;
 import com.kh.java.board.model.vo.Attachment;
 import com.kh.java.board.model.vo.Board;
 import com.kh.java.board.model.vo.Category;
+import com.kh.java.board.model.vo.Reply;
 import com.kh.java.common.vo.PageInfo;
 import com.kh.java.member.common.Template;
 
@@ -367,4 +368,34 @@ public class BoardService {
 		
 		return null;
 	}
+	
+	
+	// 댓글달기
+	public int insertReply(Reply reply) {
+		
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		int result = bd.insertReply(sqlSession, reply);
+		
+		if(result > 0) {
+			sqlSession.commit();
+		}
+		
+		sqlSession.close();
+		
+		return result;
+	}
+	
+	public List<Reply> selectReply(Long boardNo){
+		
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		List<Reply> reply = bd.selectRely(sqlSession, boardNo);
+		
+		sqlSession.close();
+		
+		return reply;
+		
+	}
+	
 }

@@ -455,6 +455,47 @@
 		       FILE_NO ASC
 	</select>
 	
+	
+	<!-- 댓글작성 -->
+	<insert id="insertReply" parameterType="reply">
+		INSERT
+		  INTO 
+		       KH_REPLY
+		  	   (
+		  	   REPLY_NO
+		  	 , REF_BNO
+		  	 , REPLY_CONTENT
+		  	 , REPLY_WRITER
+		  	   )
+		VALUES
+		       (
+		       SEQ_RNO.NEXTVAL
+		     , #{refBno}
+		     , #{replyContent}
+		     , #{replyWriter}
+		       )		  
+	</insert>
+	
+	<!-- collection으로 가져 갈 수 있지만, 경우가 다르다. -->
+	<select id="selectRely" resultType="reply">
+		SELECT
+		       REPLY_NO	replyNo
+		     , REPLY_CONTENT replyContent
+		     , USER_ID replyWriter
+		     , CREATE_DATE createDate
+		 FROM
+		       KH_REPLY
+	     JOIN
+	           KH_MEMBER ON (REPLY_WRITER = USER_NO)
+		WHERE
+		       KH_REPLY.STATUS = 'Y'
+		  AND
+		       REF_BNO = #{boardNo}
+		ORDER
+		   BY 
+		      createDate DESC
+	</select>
+	
 </mapper>
 <!-- 
 KH_BOARD (게시판)

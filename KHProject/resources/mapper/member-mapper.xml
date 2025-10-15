@@ -87,5 +87,20 @@
 	           STATUS = 'Y'
 	</update>
 	
+	<!-- 아이디 중복체크 -->
+	<select id="checkId" resultType="string" parameterType="string">
+		SELECT
+		       DECODE(
+		       COUNT(*)
+		     , 0
+		     , 'NNNY'
+		     , 1
+		     , 'NNNN'
+		       )
+		 FROM
+		       KH_MEMBER
+		WHERE
+		       USER_ID = #{id}
+	</select>
 	
 </mapper>

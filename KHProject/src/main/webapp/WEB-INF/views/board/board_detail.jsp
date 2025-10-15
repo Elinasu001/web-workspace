@@ -92,23 +92,32 @@
 		</div>
 		<div id="reply-area">
 			
-			<table class="form-group" align="center">
+			<table class="form-group table" align="center">
 				<thead>
 					<tr>
 						<th>댓글작성</th>
-							<td>
-								<textarea id="replyContent" cols="50" rows="3" style="resize:none;" class="form-control"></textarea>
-							</td>
-							<td><button onclick="insertReply();" class="btn" style="width : 100%; height : 100%; background-color: #52b1ff; color : white;">댓글등록</button></td>
-						
-							<td>
-								<textarea readonly cols="50" rows="3" style="resize:none;" class="form-control">로그인 후 이용가능한 서비스입니다.</textarea>
-							</td>
-							<td><button class="btn" style="width : 100%; height : 100%; background-color: #52b1ff; color : white;">댓글등록</button></td>
+						<c:choose>
+							<c:when test="${ sessionScope.userInfo ne null }">
+								<td>
+									<textarea id="replyContent" cols="50" rows="3" style="resize:none;" class="form-control"></textarea>
+								</td>
+								<td>
+									<button onclick="insertReply();" class="btn" style="width : 100%; height : 100%; background-color: #52b1ff; color : white;">댓글등록</button>
+								</td>
+							</c:when>
+							<c:otherwise>
+								<td>
+									<textarea readonly cols="50" rows="3" style="resize:none;" class="form-control">로그인 후 이용가능한 서비스입니다.</textarea>
+								</td>
+								<td>
+									<button class="btn" style="width : 100%; height : 100%; background-color: #52b1ff; color : white;">댓글등록</button>
+								</td>
+							</c:otherwise>
+						</c:choose>
 					</tr>
 				</thead>
 				<tbody>
-				
+					
 				</tbody>
 			</table>
 			<br><br><br><br>
@@ -118,9 +127,56 @@
 	
 	<jsp:include page="../include/footer.jsp" />
 	
-	
-	
-	
-	
 </body>
+<script>
+	function insertReply(){
+		// 댓글작성 요청 => KH_REPLY 한 행 INSERT
+		// 게시글번호(시퀀스로), 댓글 내용, 작성자 번호
+		
+		const content = $('#replyContent').val();// 욕설 같은 걸 필터링함
+		content.replaceAll('바보바보', '사실 바보 아님') // 1차 이렇게 걸러낼 때 get방식은 안됨. --> post 방식으로 해야됨
+		$.ajax({
+			url: 'insert.reply',
+			type: 'post', // insert는 무조건 post, get 방식은 ? 크기 정해져있음, 캐싱됨
+			data:{
+				replyContent : content,
+				boardNo : ${map.board.boardNo}
+			},
+			success: function(result){
+				console.log(result);
+				if(result === 'success'){
+					$('#replyContent').val('');
+					selectReply(); // 내가쓴 댓글 바로 바로 볼 수 있게 하기
+				}
+			}
+			
+		});
+	}
+	// 내가쓴 댓글 바로 바로 볼 수 있게 하기
+	$(function(){
+		selectReply();
+	});
+	
+	// 댓글 조회해서 보여지게 하기
+	function selectReply(){
+		$.ajax({
+			url:"list.reply",
+			type:"get",
+			data:{
+				boardNo: ${map.board.boardNo}
+			},
+			success: function(result){
+				//console.log(result);
+				const rows = result.map(e => `
+												<tr>
+													<td>\${e.replyNo}</td>
+													<td>\${e.replyContent}</td>
+													<td>\${e.createDate}</td>
+												</tr>
+												`).join('');
+				$('tbody').html(rows);
+			}
+		});
+	}
+</script>
 </html>

@@ -6,11 +6,21 @@
 <head>
 <meta charset="UTF-8">
 <title>AJAX</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
+<style>
+.contentWrap{padding:20px;}
+</style>
 <body>
+<div class="contentWrap">
 	<h1>AJAX</h1>
 	<h2>★★★★★ 아주 중요 별이 다섯개!! ★★★★★</h2>
-	
+		
 	<pre>
 	AJAX == Asynchronous JavaScript And XML(옛날에는 XML 주고받음)(SOAP방식))
 	
@@ -46,9 +56,9 @@
 	SPA(Single page Application) 전성시대 :: 하나의 HTML 페이지 안에서 모든 화면을 동적으로 교체
 	React, Vue, Angular => Ajax기반 라이브러리 및 프레임워크
 	</pre>
-	
+		
 	<h2>JSON</h2>
-	
+		
 	<pre>
 	홍길동(hong)
 	아하하 인천의전사독 너무 재밌고
@@ -156,8 +166,159 @@
 	- error : 통신 실패 시 실행할 콜백함수를 정의
 	- complete : 성공하든 실패하든 무조건 끝나면 실행할 콜백함수를 정의
 	</pre>
+		
+	<hr>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+		
+	<h2>jQuery를 사용한 AJAX요청 및 응답</h2>
+	
+	<h3>1. 버튼을 클릭하여 서버에 데이터를 전속하고 단순 문자열데이터 응답받기</h3>
+	
+	<div class="form-group">
+		<div class="form-control">
+			입력 : <input type="text" id="input1"/>
+		</div>
+		
+		<div class="form-control">
+			<button id="btn1" class="btn btn-sm btn-primary">요청보내기!</button>
+		</div>
+	</div>
+	
+	응답 : <label id="outpu1">현재 응답 없음</label>
+	
+	<script>
+		// 요청 보내기 버튼을 클릭하면!
+		$("#btn1").click(function(){
+			
+			// 동기식 요청
+			// locaction.href = "ajax1.do?input1=머시기";
+			
+			// 비동기식 요청(jQuery버전) : 동기식 요청과 다르게 빠름!
+			// 필기한 주요 속성 하나하나 사용
+			// url 
+			$.ajax({
+				url : "ajax1.do", 
+				type : "get",
+				data : {
+					value: $("#input1").val()
+				},
+				success : function(result){
+					console.log("ajax요청 성공!");
+					console.log(result); // server에서 print해서 보낸 responseData 출력
+					$("#outpu1").text(result); // 요청처리 성공이 들어감
+				},
+				error : function(){
+					console.log("ajax요청 실패!");
+				},
+				complete : function(){
+					console.log("나는 무조건 함!");
+				}
+			});
+		});
+	</script>
+	
+	<hr>
+	
+	<h3>2. 버튼 클릭 시 DB조회 결과 응답</h3>
+	
+	아이디 : <input type="text" id="userId"/><br>
+	비밀번호 : <input type="password" id="userPwd"/> <br>
+	<button onclick="memberInfo();">정보조회</button>
+	
+	<br><br>
+	
+	<div>사용자 이름 : <label id="name">현재 응답 없음</label></div>
+	<div>사용자 이메일 : <label id="email">현재 응답 없음</label></div>
+	
+	<script>
+		function memberInfo(){
+			$.ajax({
+				url: "ajax2.do",
+				type: "post",
+				data: {
+					id: $("#userId").val(),
+					pwd: $("#userPwd").val()
+				},
+				success: function(response){
+					console.log("ajax 요청 성공!");
+					
+					// JSONArray
+					//$("#name").text(response[0]);
+					//$("#email").text(response[1]);
+					
+					// JSONObject
+					console.log(response);
+					$("#name").text(response.name);
+					$("#email").text(response.email);
+					
+					
+				},
+				error: function(e){
+					console.log(e);
+				}
+			});
+		}
+	</script>
+	
+	<hr>
+	
+	<h3>3. 서버로 요청 후, 여러 개의 객체 응답받아 출력해보기</h3>
+	
+	<!-- 게시글 : 아이디를 입력받아 해당 아이디가 작성한 게시글 불러오기 -->
+	<!-- 쿼리까지 작업하면 시간 많이 걸리니 일단 여기서 더미데이터 형식으로 처리하기 -->
+	<br>
+	<div>아이디 입력 : <input type="text" id="search-id"/></div><br>
+	<table id="table-result" class="table">
+		<thead>
+			<tr>
+				<th>글번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			
+		</tbody>
+	</table>
+	<button class="btn btn-sm btn-danger" onclick="find();">게시글 조회</button>
+	<!--  요청 시 전달값 없이 해보자!! -->
+	<script>
+		function find(){
+	
+			// 비동기식 요청
+			$.ajax({
+				url: "ajax3.do",
+				type: "get",
+				success: function(result){
+					
+					console.log(result);
+					
+					// 얼마나 들어올지 모르니 반복문으로 !
+					let str = '';
+					for(e of result){
+						//console.log(e.board);
+						const board = e.board;
+						str += `
+								<tr>
+									<td>\${board.boardNo}</td>
+									<td>\${board.boardTitle}</td>
+									<td>\${board.boardWriter}</td>
+								</tr>
+								`;
+					}
+					$('tbody').html(str);
+					
+				}
+			});
+			
+			
+		}
+	</script>
 	
 	
 	
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>	
+</div>
 </body>
 </html>
